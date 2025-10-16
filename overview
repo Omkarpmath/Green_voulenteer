@@ -1,0 +1,314 @@
+Project: A platform for discovering online & in-person volunteer opportunities for environmental causes (e.g., tree planting, webinars, cleanups, etc.)
+
+✅ FULL PROJECT PLAN: FRONTEND + BACKEND (Phased Approach)
+🔹 Phase 1: Project Setup (Frontend + Backend)
+🖥️ Frontend Setup
+
+Initialize project:
+
+Use Vite or Next.js for fast development
+
+npm create vite@latest volunteer-platform --template react
+
+
+Folder structure:
+
+src/
+├── components/
+├── pages/
+├── hooks/
+├── utils/
+├── assets/
+└── App.jsx
+
+
+Install dependencies:
+
+npm install react-router-dom axios tailwindcss @headlessui/react
+npx tailwindcss init -p
+
+
+Configure TailwindCSS
+
+Setup Routing (React Router):
+
+/ → Home
+
+/events → Browse Events
+
+/events/:id → Event Detail
+
+/login, /register
+
+/dashboard (user/organizer/admin panel)
+
+🖧 Backend Setup
+
+Initialize Node.js Project
+
+npm init -y
+npm install express mongoose dotenv cors bcrypt jsonwebtoken
+
+
+Folder Structure
+
+backend/
+├── controllers/
+├── models/
+├── routes/
+├── middleware/
+├── config/
+└── server.js
+
+
+Setup Express Server (server.js)
+
+Configure MongoDB Atlas connection (config/db.js)
+
+Setup .env file
+
+PORT=5000
+MONGO_URI=your_mongodb_atlas_uri
+JWT_SECRET=your_secret
+
+🔹 Phase 2: Authentication System (Frontend + Backend)
+🖥️ Frontend
+
+Pages:
+
+Login.jsx, Register.jsx
+
+Forms and validation
+
+Controlled components with useState
+
+Form validation (basic)
+
+Auth context / state
+
+Store token in localStorage
+
+Create AuthContext using React Context API
+
+Protect private routes using a wrapper (PrivateRoute.jsx)
+
+Error handling and redirects
+
+🖧 Backend
+
+User model (models/User.js)
+
+{
+  name: String,
+  email: String,
+  passwordHash: String,
+  role: { type: String, enum: ["user", "organizer", "admin"], default: "user" }
+}
+
+
+Auth routes
+
+POST /api/auth/register
+
+POST /api/auth/login
+
+Password hashing with bcrypt
+
+JWT Token generation
+
+Middleware: protect routes (authMiddleware.js)
+
+🔹 Phase 3: Core Functionality — Events System
+🖧 Backend
+
+Event model (models/Event.js)
+
+{
+  title: String,
+  description: String,
+  type: ["virtual", "in-person"],
+  location: {
+    address: String,
+    coordinates: [Number], // [lng, lat]
+  },
+  date: Date,
+  tags: [String],
+  createdBy: mongoose.Schema.Types.ObjectId,
+  attendees: [mongoose.Schema.Types.ObjectId],
+  status: { type: String, enum: ["pending", "approved", "rejected"], default: "pending" }
+}
+
+
+Event routes (routes/eventRoutes.js)
+
+GET /api/events – public, filtered by type, tag, location
+
+GET /api/events/:id – view event details
+
+POST /api/events – organizer only
+
+POST /api/events/:id/join – join event
+
+GET /api/events/myevents – for dashboard
+
+GET /api/admin/events – admin: pending approval
+
+POST /api/admin/events/:id/approve – admin approval
+
+Geo Location support (for in-person events)
+
+Use MongoDB’s 2dsphere index
+
+GET /api/events?near=lat,lng for nearby events
+
+🖥️ Frontend
+
+Browse Events Page
+
+Filters: Type (Virtual/In-person), Tags, Date
+
+Cards showing event details
+
+Button: Join / View Details
+
+Event Detail Page
+
+Full event info
+
+RSVP button
+
+Show map if in-person (Leaflet or Google Maps)
+
+Event Creation (Organizers)
+
+Form for event creation
+
+Auto-fetch coordinates from address using [Mapbox API] or [Google Maps Geocoding API]
+
+Dashboard Page
+
+Show:
+
+Events joined (users)
+
+Events created (organizers)
+
+Approval queue (admin)
+
+🔹 Phase 4: Admin Panel & Moderation
+🖧 Backend
+
+Admin Middleware:
+
+Only users with role: "admin" can access certain routes
+
+Admin Routes:
+
+GET /api/admin/events – view all pending
+
+POST /api/admin/events/:id/approve
+
+POST /api/admin/events/:id/reject
+
+🖥️ Frontend
+
+Admin Dashboard UI
+
+Table of pending events
+
+Buttons to Approve / Reject
+
+🔹 Phase 5: Notifications & Email (Optional but Recommended)
+🖧 Backend
+
+Use SendGrid or Nodemailer
+
+Send RSVP confirmation
+
+Event reminder (e.g., 24 hrs before event)
+
+Setup background jobs (later) with node-cron or a service like [Bree.js]
+
+🔹 Phase 6: Deployment & DevOps
+Backend
+
+Host API on Render, Railway, or Fly.io
+
+MongoDB → MongoDB Atlas
+
+Use HTTPS & secure environment variables
+
+Frontend
+
+Deploy to Vercel or Netlify
+
+Connect frontend to deployed backend using .env:
+
+VITE_API_URL=https://your-api-domain.com/api
+
+🔹 Phase 7: Post-MVP Features
+
+Optional features to build after the core MVP
+
+Social Login
+
+Google OAuth via Firebase Auth or Passport.js
+
+Event Reviews / Comments
+
+User Profiles
+
+Event Calendar (iCal export)
+
+Public API for orgs to submit events
+
+Mobile App (React Native or Expo)
+
+🗂️ Recommended Folder Structures
+📦 Frontend
+src/
+├── components/
+│   ├── EventCard.jsx
+│   ├── EventForm.jsx
+│   └── Navbar.jsx
+├── pages/
+│   ├── Home.jsx
+│   ├── EventDetail.jsx
+│   ├── Dashboard.jsx
+│   └── Login.jsx
+├── hooks/
+├── services/
+│   └── api.js
+├── context/
+│   └── AuthContext.js
+└── App.jsx
+
+🖧 Backend
+backend/
+├── controllers/
+│   ├── authController.js
+│   ├── eventController.js
+│   └── adminController.js
+├── models/
+│   ├── User.js
+│   └── Event.js
+├── routes/
+│   ├── authRoutes.js
+│   ├── eventRoutes.js
+│   └── adminRoutes.js
+├── middleware/
+│   ├── authMiddleware.js
+│   └── roleMiddleware.js
+├── config/
+│   └── db.js
+└── server.js
+
+📋 Project Phase Checklist
+Phase	Feature	Status
+1	Frontend & Backend Setup	⬜
+2	Auth System	⬜
+3	Event System	⬜
+4	Admin Panel	⬜
+5	Notifications	⬜
+6	Deployment	⬜
+7	Optional Features	⬜
