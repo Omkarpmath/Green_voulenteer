@@ -1,0 +1,104 @@
+🖧 BACKEND: Detailed Feature Breakdown & Tasks
+1. Project Setup
+
+ Initialize Node.js + Express project
+
+ Setup MongoDB connection (Atlas preferred)
+
+ Setup environment variables (PORT, MONGO_URI, JWT_SECRET)
+
+
+
+2. User Authentication
+
+ User model schema with fields: name, email, passwordHash, role
+
+ Password hashing with bcrypt
+
+ Auth routes:
+
+POST /api/auth/register — validate, hash password, save user
+
+POST /api/auth/login — validate, check password, generate JWT
+
+ JWT middleware to protect routes
+
+ Role-based middleware (for organizer/admin access)
+
+
+
+3. Events Management
+
+ Event schema with fields:
+
+title, description, date, type, location (address + geo coordinates), tags, createdBy, attendees[], status
+
+ Create event route: POST /api/events (organizer only)
+
+ Get all approved events: GET /api/events with filters (type, tags, date, location)
+
+ Get event by ID: GET /api/events/:id
+
+ Join event: POST /api/events/:id/join (add user to attendees array)
+
+ Get user’s events (created and joined)
+
+ Geo queries for nearby events (2dsphere index on coordinates)
+
+ Update/Delete events (optional, by creator or admin)
+
+
+
+4. Admin Functionality
+
+ Get all pending events: GET /api/admin/events
+
+ Approve event: POST /api/admin/events/:id/approve
+
+ Reject event: POST /api/admin/events/:id/reject
+
+ Role validation middleware (admin-only routes)
+
+
+
+5. Notifications (Optional)
+
+ Setup Nodemailer or SendGrid integration
+
+ Send email on:
+
+RSVP confirmation
+
+Event reminders (could be cron jobs)
+
+
+
+6. Security & Validation
+
+ Input validation (Joi or express-validator)
+
+ Sanitize inputs to avoid injection
+
+ Rate limiting (optional)
+
+ Helmet middleware for basic security headers
+
+
+
+7. Testing (Optional but recommended)
+
+ Unit tests for controllers and middleware (Jest + Supertest)
+
+ Integration tests for routes
+
+
+
+8. Deployment Preparation
+
+ Prepare production environment variables
+
+ Configure CORS to allow frontend domain
+
+ Setup logging (morgan or Winston)
+
+ Error handling middleware for consistent API responses
