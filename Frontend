@@ -1,0 +1,162 @@
+⚛️ FRONTEND: Detailed Feature Breakdown & Tasks
+1. Project Setup
+ Initialize React project (Vite or Next.js)
+
+ Setup TailwindCSS or preferred styling framework
+
+ Setup React Router with routes:
+
+/ — Home
+
+/events — List all events
+
+/events/:id — Event detail
+
+/login and /register
+
+/dashboard (user/organizer/admin)
+
+ Setup environment variables (e.g., API base URL)
+
+
+ 
+
+2. Authentication UI & State
+
+ Create Register form
+
+ Create Login form
+
+ Input validations (required fields, email format, password strength)
+
+ Create Auth context/provider to manage:
+
+Authentication state (logged in/out)
+
+JWT token storage (localStorage/sessionStorage)
+
+User info (name, role)
+
+ PrivateRoute component to protect routes for logged-in users
+
+ Show proper error messages from backend (e.g., invalid login)
+
+ 
+
+3. Event Browsing & Searching
+
+ EventList page showing cards for all events
+
+ Search bar with:
+
+Filters by event type (Virtual / In-person)
+
+Filter by tags (e.g., “tree planting”, “cleanup”)
+
+Date picker (optional)
+
+Location radius filter (optional)
+
+ Pagination or infinite scroll for large lists
+
+ Loading spinner and error states
+
+ 
+
+4. Event Details
+
+ Show detailed info: title, description, date, type, tags, location, organizer
+
+ RSVP / Join button (if logged in)
+
+ Disable join if event is past or user already joined
+
+ Show map for in-person events (integrate Leaflet or Google Maps)
+
+ List of attendees count or names (optional)
+
+ 
+
+5. Event Creation Form (Organizers)
+
+ Form inputs:
+
+Title, Description
+
+Date & time picker
+
+Type: Virtual or In-person
+
+Location address input (for in-person)
+
+Tags (multi-select)
+
+ Auto-fetch and validate location coordinates from address via geocoding API
+
+ Submit button with loading state
+
+ Error handling & success message
+
+ Redirect to dashboard or event details on success
+
+ 
+
+6. User Dashboard
+
+ Show:
+
+Events user joined
+
+Events user created (if organizer)
+
+ Option to cancel RSVP or delete events (optional)
+
+ Upcoming events notifications (optional)
+
+ 
+
+7. Admin Panel (Admin role)
+
+ List of pending events for approval
+
+ Approve / Reject buttons
+
+ Confirmation dialogs
+
+ Success/error feedback
+
+ 
+
+8. UI Components & Utilities
+
+ Navbar with links based on user role
+
+ Responsive design (mobile-friendly)
+
+ Reusable components:
+
+Buttons, Inputs, Cards, Modals, Filters, Loading spinner
+
+ Toast notifications for success/error
+
+ Error boundary for catching frontend errors
+
+ 
+
+9. API Integration
+
+ Setup centralized API service (axios instance)
+
+ Handle token in Authorization header
+
+ Implement retry or refresh token if necessary (optional)
+
+ Handle HTTP errors globally
+
+ 
+
+10. Testing (Optional but recommended)
+
+ Unit tests for components (React Testing Library + Jest)
+
+ E2E tests for critical flows (Cypress)
